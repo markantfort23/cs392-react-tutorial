@@ -1,16 +1,19 @@
 import React from 'react';
+import '../styles/CourseList.css';
 
 const CourseList = ({ courses }) => (
-  <ul>
+  <div className="course-list">
     {Object.keys(courses).map(courseId => {
       const course = courses[courseId];
       return (
-        <li key={courseId}>
-          {course.term} {course.number}: {course.title} - {course.meets}
-        </li>
+        <div key={courseId} className="course-card">
+          <h3>{course.term} CS {course.number}</h3>
+          <p>{course.title}</p>
+          <p className="meets">{course.meets}</p>
+        </div>
       );
     })}
-  </ul>
+  </div>
 );
 
 export default CourseList;

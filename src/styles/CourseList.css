@@ -1,0 +1,39 @@
+.course-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.course-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  height: 100%;
+}
+
+.course-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+}
+
+.course-card p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.course-card .meets {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.course-list > .course-card {
+  min-height: 200px;
+}
