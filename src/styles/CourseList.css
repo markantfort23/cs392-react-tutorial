@@ -16,6 +16,13 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: left;
   height: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.course-card.selected {
+  background-color: #cce5ff;
+  border-color: #007bff;
 }
 
 .course-card h3 {
