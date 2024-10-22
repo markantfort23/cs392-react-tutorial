@@ -1,6 +1,6 @@
 import React from 'react';
 import Banner from './components/Banner';
-import CourseList from './components/CourseList';
+import ByTermPage from './components/ByTermPage';
 import getCourses from './utilities/getCourses';
 
 const App = () => {
@@ -19,7 +19,7 @@ const App = () => {
   return (
     <div>
       <Banner title={data.title} />
-      {coursesArray.length > 0 ? <CourseList courses={coursesArray} /> : <div>No courses available</div>}
+      <ByTermPage courses={coursesArray} />
     </div>
   );
 };
