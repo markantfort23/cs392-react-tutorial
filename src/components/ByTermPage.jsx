@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import TermSelector from './TermSelector';
 import CourseList from './CourseList';
 import CoursePlanPopup from './CoursePlanPopup';
+import { hasConflictWithSelected } from '../utilities/timeConflicts';
 
 const ByTermPage = ({ courses }) => {
   const [selectedTerm, setSelectedTerm] = useState('Fall');
@@ -10,12 +11,17 @@ const ByTermPage = ({ courses }) => {
 
   const filteredCourses = courses.filter(course => course.term === selectedTerm);
 
-  const toggleSelectCourse = (courseNumber) => {
-    setSelectedCourses(prevSelected =>
-      prevSelected.includes(courseNumber)
-        ? prevSelected.filter(number => number !== courseNumber)
-        : [...prevSelected, courseNumber]
-    );
+  const toggleSelectCourse = (course) => {
+    setSelectedCourses(prevSelectedCourses => {
+      const isSelected = prevSelectedCourses.some(selected => selected.number === course.number);
+
+      if (isSelected) {
+        return prevSelectedCourses.filter(selected => selected.number !== course.number);
+      } else if (!hasConflictWithSelected(course, prevSelectedCourses)) {
+        return [...prevSelectedCourses, course];
+      }
+      return prevSelectedCourses;
+    });
   };
 
   const openPopup = () => {
@@ -39,7 +45,7 @@ const ByTermPage = ({ courses }) => {
       />
       {isPopupOpen && (
         <CoursePlanPopup
-          selectedCourses={filteredCourses.filter(course => selectedCourses.includes(course.number))}
+          selectedCourses={selectedCourses}
           closePopup={closePopup}
         />
       )}

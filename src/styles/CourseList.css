@@ -25,6 +25,23 @@
   border-color: #007bff;
 }
 
+.course-card.unselectable {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #f9f9f9;
+  border-color: #ddd;
+  position: relative;
+}
+
+.course-card.unselectable::after {
+  content: '✘';
+  color: red;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+}
+
 .course-card h3 {
   font-size: 1.25rem;
   margin-bottom: 10px;
