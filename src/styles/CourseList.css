@@ -17,6 +17,7 @@
   text-align: left;
   height: 100%;
   cursor: pointer;
+  position: relative;
   transition: background-color 0.3s ease;
 }
 
@@ -30,16 +31,6 @@
   cursor: not-allowed;
   background-color: #f9f9f9;
   border-color: #ddd;
-  position: relative;
-}
-
-.course-card.unselectable::after {
-  content: '✘';
-  color: red;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 1.5rem;
 }
 
 .course-card h3 {
@@ -71,6 +62,7 @@
   position: absolute;
   top: 10px;
   right: 10px;
+  pointer-events: auto;
 }
 
 .form-overlay {
