@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import useAuth from '../utilities/useAuth';
 import CourseForm from './CourseForm';
 import { hasConflictWithSelected } from '../utilities/timeConflicts';
 import '../styles/CourseList.css';
 
 const CourseList = ({ courses, selectedCourses, toggleSelectCourse }) => {
+  const { user } = useAuth();
   const [editingCourse, setEditingCourse] = useState(null);
 
   const handleEditClick = (e, course) => {
-    e.stopPropagation(); // Prevent the card's onClick from firing
+    e.stopPropagation();
     setEditingCourse(course);
   };
 
@@ -30,9 +32,11 @@ const CourseList = ({ courses, selectedCourses, toggleSelectCourse }) => {
             <h3>{course.term} CS {course.number}</h3>
             <p>{course.title}</p>
             <p className="meets">{course.meets}</p>
-            <button className="edit-button" onClick={(e) => handleEditClick(e, course)}>
-              ✎
-            </button>
+            {user && (
+              <button className="edit-button" onClick={(e) => handleEditClick(e, course)}>
+                ✎
+              </button>
+            )}
           </div>
         );
       })}
