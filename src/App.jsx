@@ -4,22 +4,16 @@ import ByTermPage from './components/ByTermPage';
 import getCourses from './utilities/getCourses';
 
 const App = () => {
-  const { data, error, isLoading } = getCourses();
+  const { courses, loading } = getCourses();
 
-  if (isLoading) {
-    return <div>Loading</div>;
+  if (loading) {
+    return <div>Loading...</div>;
   }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
-  const coursesArray = data ? Object.values(data.courses) : [];
 
   return (
     <div>
-      <Banner title={data.title} />
-      <ByTermPage courses={coursesArray} />
+      <Banner title="CS Courses for 2018-2019" />
+      <ByTermPage courses={courses} />
     </div>
   );
 };
