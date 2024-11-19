@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import useAuth from '../utilities/useAuth';
+import useUserRole from '../utilities/useUserRole';
 import CourseForm from './CourseForm';
 import { hasConflictWithSelected } from '../utilities/timeConflicts';
 import '../styles/CourseList.css';
 
 const CourseList = ({ courses, selectedCourses, toggleSelectCourse }) => {
   const { user } = useAuth();
+  const { role, loading } = useUserRole();
   const [editingCourse, setEditingCourse] = useState(null);
 
   const handleEditClick = (e, course) => {
@@ -16,6 +18,10 @@ const CourseList = ({ courses, selectedCourses, toggleSelectCourse }) => {
   const handleCancel = () => {
     setEditingCourse(null);
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="course-list">
@@ -32,7 +38,7 @@ const CourseList = ({ courses, selectedCourses, toggleSelectCourse }) => {
             <h3>{course.term} CS {course.number}</h3>
             <p>{course.title}</p>
             <p className="meets">{course.meets}</p>
-            {user && (
+            {user && role === 'admin' && (
               <button className="edit-button" onClick={(e) => handleEditClick(e, course)}>
                 ✎
               </button>
