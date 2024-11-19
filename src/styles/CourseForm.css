@@ -3,3 +3,18 @@
   font-size: 0.9rem;
   margin-top: 5px;
 }
+
+.submit-button {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.submit-button:disabled {
+  background-color: #c3e6cb;
+  cursor: not-allowed;
+}

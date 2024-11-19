@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { database } from '../utilities/firebase';
+import { ref, update } from 'firebase/database';
 import '../styles/CourseForm.css';
 
 const CourseForm = ({ course, onCancel }) => {
   const [title, setTitle] = useState(course ? course.title : '');
   const [meets, setMeets] = useState(course ? course.meets : '');
   const [errors, setErrors] = useState({ title: '', meets: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validateTitle = (value) => {
     return value.length >= 2 ? '' : 'Title must be at least 2 characters long.';
@@ -16,7 +19,11 @@ const CourseForm = ({ course, onCancel }) => {
     return regex.test(value) ? '' : 'Must contain days and times, e.g., MWF 12:00-13:20.';
   };
 
-  const handleSubmit = (e) => {
+  const hasChanges = () => {
+    return title !== course.title || meets !== course.meets;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const titleError = validateTitle(title);
     const meetsError = validateMeets(meets);
@@ -26,7 +33,24 @@ const CourseForm = ({ course, onCancel }) => {
       return;
     }
 
-    // Submission logic to update the course will go here later
+    if (!hasChanges()) {
+      alert('No changes detected.');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const courseRef = ref(database, `courses/${course.number}`);
+      await update(courseRef, { title, meets });
+      alert('Course updated successfully.');
+      onCancel();
+    } catch (error) {
+      console.error('Error updating course:', error);
+      alert('Failed to update course. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -62,8 +86,11 @@ const CourseForm = ({ course, onCancel }) => {
             />
             {errors.meets && <p className="error-message">{errors.meets}</p>}
           </div>
-          <button type="button" onClick={onCancel} className="cancel-button">
+          <button type="button" onClick={onCancel} className="cancel-button" disabled={isSubmitting}>
             Cancel
+          </button>
+          <button type="submit" className="submit-button" disabled={isSubmitting || !hasChanges()}>
+            {isSubmitting ? 'Submitting...' : 'Submit'}
           </button>
         </form>
       </div>
